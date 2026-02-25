@@ -1,4 +1,4 @@
-# Empower 2026 - Practical AI
+# Empower 2026 - Practical AI Workflows
 
 This package deploys several elements used throughout the *Practical AI workflows* session at Empower 2026. During this session, the Relational Anomaly Detection feature is demonstrated using the deployed elements.
 

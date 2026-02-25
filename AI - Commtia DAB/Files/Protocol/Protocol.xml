@@ -3778,7 +3778,7 @@ public class QAction
 	<Timers>
 		<Timer id="1">
 			<Name>Timer1</Name>
-			<Time initial="random=5:10">30000</Time>
+			<Time initial="random=5:10">2000</Time> <!-- 30000 to have slow reading-->
 			<!-- 30 sec-->
 			<Content>
 				<Group>1</Group>
