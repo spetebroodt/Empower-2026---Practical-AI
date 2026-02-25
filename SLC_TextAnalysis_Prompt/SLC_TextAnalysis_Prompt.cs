@@ -59,6 +59,7 @@ namespace TextAnalysis
 	using Skyline.DataMiner.Net.Apps.DocumentIntelligence;
 	using Skyline.DataMiner.Net.Apps.DocumentIntelligence.Objects;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
+	using Skyline.DataMiner.Utils.SecureCoding.SecureIO;
 	using TextAnalysisPrompt;
 
 	/// <summary>
@@ -68,6 +69,8 @@ namespace TextAnalysis
 	{
 		private IEngine _engine;
 		private InteractiveController app;
+
+		private static string _saveDirectory { get; set; } = @"C:\Skyline DataMiner\Webpages\public\Files";
 
 		/// <summary>
 		/// The script entry point.
@@ -144,8 +147,10 @@ namespace TextAnalysis
 			{
 				if (!string.IsNullOrWhiteSpace(dialog.FilePath))
 				{
-					var fileBytes = File.ReadAllBytes(dialog.FilePath);
-					var fileName = Path.GetFileName(dialog.FilePath);
+					var filePath = SecurePath.CreateSecurePath(dialog.FilePath); // Validate the file path before proceeding
+					SaveFile(app.Engine, filePath);
+					var fileBytes = File.ReadAllBytes(filePath);
+					var fileName = Path.GetFileName(filePath);
 					var docIntelHelper = new DocumentIntelligenceHelper(_engine.SendSLNetMessages);
 					app.Engine.GenerateInformation("Analyzing document with prompt: " + dialog.Prompt);
 					var output = docIntelHelper.AnalyzeDocuments(GetContext(dialog.Prompt), new List<Document>() { new Document() { Name = fileName, Content = fileBytes } });
@@ -170,6 +175,21 @@ namespace TextAnalysis
 		{
 			var context = startPrompt;
 			return context;
+		}
+
+		private void SaveFile(IEngine engine, SecurePath filePath)
+		{
+			var directory = SecurePath.ConstructSecurePath(_saveDirectory);
+			if (!Directory.Exists(directory))
+			{
+				Directory.CreateDirectory(directory);
+			}
+
+			string fileNameWithExtension = Path.GetFileName(filePath);
+			var newfilePath = SecurePath.ConstructSecurePath(directory, fileNameWithExtension);
+			File.Copy(filePath, newfilePath, true);
+
+			engine.Log($"File saved successfully at: {newfilePath}");
 		}
 	}
 }
