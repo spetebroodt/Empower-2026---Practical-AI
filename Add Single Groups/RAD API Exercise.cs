@@ -89,8 +89,10 @@ namespace ConfigureLondonDABs
 			// Create the RAD group:
 			// - give the group a name as it will appear in RAD.
 			// - subgroupInfos defines which elements participate and how their parameters map into the shared model.
-			// - The final boolean controls whether the model should update with new incoming data (true) or only upon manual retraining (false).
-			var groupInfo = new RADGroupInfo(groupName, subgroupInfos, false);
+			bool adaptModelToNewData = false; //controls whether the model should update with new incoming data (true) or only upon manual retraining (false).
+
+			 // Todo: Configure the group behavior (double anomalyThreshold, int minimumAnomalyDuration) so that an anomaly will be reported when the anomaly score is higher than 3 and if it persists for at least 5 minutes.  
+			var groupInfo = new RADGroupInfo(groupName, subgroupInfos, adaptModelToNewData /* Todo: , anomalyThreshold, minimumAnomalyDuration*/);
 			var request = new AddRADParameterGroupMessage(groupInfo);
 
 			// Send a request to add the RAD parameter group configuration in DataMiner.

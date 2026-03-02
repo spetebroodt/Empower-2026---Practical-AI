@@ -88,8 +88,10 @@ namespace ConfigureLondonDABSharedModelGroup
 			// Create the RAD group:
 			// - "DAB Fleet" is the group name as it will appear in RAD.
 			// - subgroupInfos defines which elements participate and how their parameters map into the shared model.
-			// - The final boolean controls whether the model should update with new incoming data (true) or only upon manual retraining (false).
-			var groupInfo = new RADGroupInfo(groupName, subgroupInfos, false);
+			bool adaptModelToNewData = false; //controls whether the model should update with new incoming data (true) or only upon manual retraining (false).
+			double anomalyThreshold = 3; //optional threshold for anomaly detection. Higher means fewer anomalies.
+			int minimumAnomalyDuration = 5; //optional minimum duration (in minutes) that an anomaly should persist before being reported as an actual anomaly. 
+			var groupInfo = new RADGroupInfo(groupName, subgroupInfos, adaptModelToNewData, anomalyThreshold, minimumAnomalyDuration);
 			var request = new AddRADParameterGroupMessage(groupInfo);
 
 			// Send a request to add the RAD parameter group configuration in DataMiner.
