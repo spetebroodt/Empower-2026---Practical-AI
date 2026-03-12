@@ -23,6 +23,11 @@
 
 		public void InstallDefaultContent()
 		{
+			if (DateTime.Now > new DateTime(2026, 3, 17, 12, 0, 0))
+			{
+				engine.GenerateInformation("The default content installation is only intended for demonstration purposes during the Empower 2026 event. Please contact support if you want to use or modify this content.");
+				return;
+			}
 			int viewID = CreateViews(new string[] { "DataMiner Catalog", "Empower 2026", "Relational Anomaly Detection Demo"});
 			CreateElement($"RAD - Commtia LON 1", "AI - Commtia DAB", "1.0.0.1", viewID, "TrendTemplate_PA_Demo", "AlarmTemplate_PA_Demo");
 			Thread.Sleep(5000);
