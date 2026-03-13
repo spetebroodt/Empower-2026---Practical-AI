@@ -174,7 +174,7 @@ namespace TextAnalysis
 		private string GetContext(string startPrompt)
 		{
 			var context = startPrompt;
-			if(string.IsNullOrWhiteSpace(context))
+			if (string.IsNullOrWhiteSpace(context))
 			{
 				context = "Hello";
 			}
